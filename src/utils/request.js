@@ -1,33 +1,34 @@
-import axios from 'axios'
+import axios from "axios";
 
 export function request(config) {
+  //创建axios实例
+  const instance = axios.create({
+    baseURL: "",
+    timeout: 5000
+  });
 
-    //创建axios实例 webstorm尝试操作
-    const instance = axios.create({
-        baseURL: "http://152.136.185.210:8000/api/z8",
-        timeout: 5000
-    })
+  //axios拦截器
+  //添加请求拦截器
+   instance.interceptors.request.use(function (config){
+       //发送请求之前需要进行的操作
+       return config;
+   },function (error){
+       //请求错误后进行的操作
+       console.log(error);
+       //返回带有拒绝原因的promise对象
+       return Promise.reject(error);
+   })
+  //拦截响应
+  instance.interceptors.response.use(function (res){
+      //对响应数据进行的操作
+      if(res.data==="example"){
 
+      }
+      return res;
+  },function (error){
+      console.log(error)
+  })
 
-    //axios拦截器
-    instance.interceptors.request.use(config => {
-        // console.log(config)
-        //1.比如config中的一些信息不符合服务器要求
-        //2.比如每次发送网络请求时,都希望在界面显示换一个请求图标
-        //3.某些网络请求(比如登录(token)),必须携带一些特殊信息
-
-        return config
-    }, err => {
-        console.log(err)
-    })
-
-    //拦截响应
-    instance.interceptors.response.use(res => {
-        return res.data
-    }, err => {
-        console.log(err)
-    })
-
-    //发送真正的网路请求
-    return instance(config)
+  //发送真正的网路请求
+  return instance(config);
 }
