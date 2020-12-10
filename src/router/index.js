@@ -1,24 +1,83 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Layout from "@/layout";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: "/login",
+    component: () => import("@/views/login"),
+    hidden: true
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+    path: "/404",
+    component: () => import("@/views/404"),
+    hidden: true
+  },
+  {
+    path: "/",
+    name: "主页",
+    redirect: "/home",
+
+    component: Layout,
+    children: [
+      {
+        path: "home",
+        component: () => import("@/views/Home")
+      }
+    ]
+  },
+  {
+    path: "/userinfo",
+    name: "用户中心",
+    redirect: "/userinfo/index",
+
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/userInfo/index")
+      }
+    ]
+  },
+  {
+    path: "/trainning",
+    name: "培训中心",
+    redirect: "/trainning/index",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/trainning/index")
+      }
+    ]
+  },
+  {
+    path: "/exam",
+    name: "考试中心",
+    redirect: "/exam/index",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/exam/index")
+      }
+    ]
+  },
+  {
+    path: "/system",
+    name: "系统中心",
+    redirect: "/system/index",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/system/index")
+      }
+    ]
+  },
+  { path: "*", redirect: "/404", hidden: true }
 ];
 
 const router = new VueRouter({
