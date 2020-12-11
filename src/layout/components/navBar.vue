@@ -28,8 +28,8 @@ export default {
     },
     activePath() {
       return this.$route.fullPath;
-    }
-  }
+    },
+  },
 };
 </script>
 
