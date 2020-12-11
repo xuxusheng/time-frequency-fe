@@ -1,4 +1,4 @@
-# time-frequency-fe
+# time-frequency-fe-vue3
 
 ## Project setup
 ```
