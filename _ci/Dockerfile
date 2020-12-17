@@ -1,7 +1,7 @@
 FROM node:14-slim AS builder
 WORKDIR /project
 # 安装依赖
-COPY package.json package-lock.json .npmrc /project/
+COPY package.json yarn.lock .npmrc /project/
 #RUN npm ci
 RUN yarn install
 # 构建
