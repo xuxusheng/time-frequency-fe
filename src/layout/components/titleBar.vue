@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "titleBar"
+  name: "titleBar",
 };
 </script>
 

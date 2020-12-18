@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Layout from "../layout/index.vue";
 import Home from "../views/Home.vue";
-import Login from "../views/login.vue";
+import Login from "../views/Login.vue";
 import NotFound from "../views/404.vue";
 import UserInfo from "../views/userInfo/index.vue";
 import System from "../views/system/index.vue";
@@ -28,9 +28,9 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     component: Login,
-    meta: {
-      hidden: true,
-    },
+    // meta: {
+    //   hidden: true,
+    // },
   },
   {
     path: "/404",
