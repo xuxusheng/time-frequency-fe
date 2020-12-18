@@ -1,115 +1,67 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Layout from "../layout/index.vue";
-import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import NotFound from "../views/404.vue";
-import UserInfo from "../views/userInfo/index.vue";
-import System from "../views/system/index.vue";
-import Exam from "../views/exam/index.vue";
-import Training from "../views/training/index.vue";
-import page404 from "../views/404.vue";
+
+import BasicLayout from "@/layout/BasicLayout.vue";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
+import UserInfo from "@/views/userInfo/index.vue";
+import System from "@/views/system/index.vue";
+import Exam from "@/views/exam/index.vue";
+import Training from "@/views/training/index.vue";
+import NotFound from "@/views/404.vue";
 
 const routes: Array<RouteRecordRaw> = [
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home
-  // },
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
-  // }
-
   {
-    path: "/login",
-    component: Login,
-    // meta: {
-    //   hidden: true,
-    // },
+    path: "/:pathMatch(.*)*",
+    redirect: "/dashboard/home",
   },
   {
     path: "/404",
     component: NotFound,
-    meta: {
-      hidden: true,
-    },
   },
   {
-    path: "/",
-    name: "主页",
-    redirect: "/home",
-
-    component: Layout,
+    path: "/login",
+    component: Login,
+  },
+  {
+    path: "/dashboard",
+    component: BasicLayout,
     children: [
+      {
+        path: "",
+        redirect: "home",
+        meta: { hidden: true },
+      },
       {
         path: "home",
+        name: "主页",
         component: Home,
+        meta: { icon: "el-icon-s-home" },
       },
-    ],
-  },
-  {
-    path: "/userinfo",
-    name: "用户中心",
-    redirect: "/userinfo/index",
-
-    component: Layout,
-    children: [
       {
-        path: "index",
+        path: "userinfo",
+        name: "用户中心",
         component: UserInfo,
+        meta: { icon: "el-icon-user-solid" },
       },
-    ],
-  },
-  {
-    path: "/training",
-    name: "培训中心",
-    redirect: "/training/index",
-
-    component: Layout,
-    children: [
       {
-        path: "index",
+        path: "training",
+        name: "培训中心",
         component: Training,
+        meta: { icon: "el-icon-notebook-2" },
       },
-    ],
-  },
-  {
-    path: "/exam",
-    name: "考试中心",
-    redirect: "/exam/index",
-
-    component: Layout,
-    children: [
       {
-        path: "index",
+        path: "exam",
+        name: "考试中心",
         component: Exam,
+        meta: { icon: "el-icon-edit-outline" },
       },
-    ],
-  },
-  {
-    path: "/system",
-    name: "系统中心",
-    redirect: "/system/index",
-    component: Layout,
-    children: [
       {
-        path: "index",
+        path: "system",
+        name: "系统设置",
         component: System,
+        meta: { icon: "el-icon-setting" },
       },
     ],
-  },
-  {
-    path: "/:pathMatch(.*)*",
-    name: "page404",
-    component: page404,
-    meta: {
-      hidden: true,
-    },
   },
 ];
 

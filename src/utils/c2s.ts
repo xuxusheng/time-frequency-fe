@@ -3,6 +3,7 @@ import camelcase from "camelcase";
 import decamelize from "decamelize";
 
 // 驼峰转蛇形
+// eslint-disable-next-line
 export function c2s(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map((o) => c2s(o));
@@ -22,6 +23,7 @@ export function c2s(obj: any): any {
 }
 
 // 蛇形转驼峰
+// eslint-disable-next-line
 export function s2c(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map((o) => s2c(o));

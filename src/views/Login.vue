@@ -1,25 +1,42 @@
 <template>
-  <el-form :model="form" status-icon :rules="rules" ref="form">
-    <el-form-item prop="name">
-      <el-input v-model="form.name" />
-    </el-form-item>
-    <el-form-item prop="password">
-      <el-input v-model="form.password" />
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submit('form')">登录</el-button>
-    </el-form-item>
-  </el-form>
+  <div class="root">
+    <div class="container">
+      <h1 class="header"><i class="el-icon-timer" /> 时频培训系统</h1>
+      <el-form :model="form" status-icon :rules="rules" ref="form">
+        <el-form-item prop="name">
+          <el-input v-model="form.name" @keydown.enter="submit('form')" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" @keydown.enter="submit('form')" />
+        </el-form-item>
+        <el-form-item>
+          <el-button class="btn" type="primary" @click="submit('form')"
+            >登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="footer">
+      <Footer />
+    </div>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 // 登录页组件
 
-import { login } from "@/api";
+import { defineComponent } from "vue";
 import { ElMessage } from "element-plus";
 
-export default {
+import { login } from "@/api";
+import { setToken } from "@/utils";
+import Footer from "@/components/Footer.vue";
+
+export default defineComponent({
   name: "login-view",
+  components: {
+    Footer,
+  },
   data() {
     return {
       form: {
@@ -36,7 +53,7 @@ export default {
     };
   },
   methods: {
-    submit(formName) {
+    submit(formName: string) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const resp = await login({
@@ -46,29 +63,54 @@ export default {
           if (typeof resp.data?.data === "string") {
             // 登录成功，保存 token
             ElMessage.success("登录成功");
-            console.log("token: ", resp.data.data);
+            setToken(resp.data.data);
+            this.$router.push("/");
           }
         }
         return false;
       });
-
-      // const t = this;
-      // console.log("外部：", t.name, this.password);
-      // this.$refs[formName].validate(async function (valid) {
-      //   if (!valid) {
-      //     return false;
-      //   }
-      //   // 校验合法，调用登录请求
-      //   console.log("登录", this.form.name, this.form.password);
-      //   const resp = await login({
-      //     name: this.form.name,
-      //     password: this.form.password,
-      //   });
-      //   console.log("resp: ", resp);
-      // });
     },
   },
-};
+});
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.root {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  width: 60%;
+  min-width: 300px;
+}
+
+.header {
+  color: #409eff;
+  text-align: center;
+  margin-left: -32px;
+}
+
+.btn {
+  width: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #909399;
+  text-align: center;
+
+  a,
+  a:visited,
+  a:focus {
+    color: #409eff;
+  }
+}
+</style>
