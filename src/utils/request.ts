@@ -1,5 +1,6 @@
 import axios from "axios";
 //cookies的时候再验证
+//修改一下试试
 import { auth } from "@/utils/cookies";
 //导入element ui消息组件提示错误信息
 //message 被加入到vue的原型上，因此可以直接在Vue里面使用

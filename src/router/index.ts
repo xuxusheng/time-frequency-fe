@@ -7,6 +7,7 @@ import UserInfo from "../views/userInfo/index.vue";
 import System from "../views/system/index.vue";
 import Exam from "../views/exam/index.vue";
 import Training from "../views/training/index.vue";
+import page404 from "../views/404.vue";
 
 const routes: Array<RouteRecordRaw> = [
   // {
@@ -26,11 +27,17 @@ const routes: Array<RouteRecordRaw> = [
 
   {
     path: "/login",
-    component: Login
+    component: Login,
+    meta: {
+      hidden: true,
+    },
   },
   {
     path: "/404",
-    component: NotFound
+    component: NotFound,
+    meta: {
+      hidden: true,
+    },
   },
   {
     path: "/",
@@ -41,9 +48,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "home",
-        component: Home
-      }
-    ]
+        component: Home,
+      },
+    ],
   },
   {
     path: "/userinfo",
@@ -54,9 +61,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "index",
-        component: UserInfo
-      }
-    ]
+        component: UserInfo,
+      },
+    ],
   },
   {
     path: "/training",
@@ -65,9 +72,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "/",
-        component: Training
-      }
-    ]
+        component: Training,
+      },
+    ],
   },
   {
     path: "/exam",
@@ -76,9 +83,9 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "/",
-        component: Exam
-      }
-    ]
+        component: Exam,
+      },
+    ],
   },
   {
     path: "/system",
@@ -88,15 +95,23 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "index",
-        component: System
-      }
-    ]
-  }
+        component: System,
+      },
+    ],
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "page404",
+    component: page404,
+    meta: {
+      hidden: true,
+    },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;
