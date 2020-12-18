@@ -6,16 +6,15 @@
     router
     :default-active="activePath"
   >
-    <!--    todo 报错：Custom elements in iteration require 'v-bind:key' directives -->
-    <!--    <template v-for="item in routerList">-->
-
-    <!--      <el-menu-item-->
-    <!--        v-if="!item.hidden"-->
-    <!--        :index="item.redirect"-->
-    <!--      >-->
-    <!--        {{ item.name }}-->
-    <!--      </el-menu-item>-->
-    <!--    </template>-->
+    <template v-for="(item, index) in routerList">
+      <el-menu-item
+        v-if="!item.meta?.hidden"
+        :key="index"
+        :index="item.redirect"
+      >
+        {{ item.name }}
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
@@ -28,8 +27,8 @@ export default {
     },
     activePath() {
       return this.$route.fullPath;
-    }
-  }
+    },
+  },
 };
 </script>
 
