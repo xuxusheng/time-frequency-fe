@@ -68,10 +68,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/training",
     name: "培训中心",
+    redirect: "/training/index",
+
     component: Layout,
     children: [
       {
-        path: "/",
+        path: "index",
         component: Training,
       },
     ],
@@ -79,10 +81,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/exam",
     name: "考试中心",
+    redirect: "/exam/index",
+
     component: Layout,
     children: [
       {
-        path: "/",
+        path: "index",
         component: Exam,
       },
     ],
