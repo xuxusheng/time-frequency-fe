@@ -1,47 +1,32 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
-import BasicLayout from "@/layout/BasicLayout.vue";
+import BasicLayout from "@/layout/basic/BasicLayout.vue";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
-import UserInfo from "@/views/userInfo/index.vue";
-import System from "@/views/system/index.vue";
 import Exam from "@/views/exam/index.vue";
 import Training from "@/views/training/index.vue";
 import NotFound from "@/views/404.vue";
 
+import SettingLayout from "@/layout/setting/SettingLayout.vue";
+import UserInfoView from "@/views/setting/UserInfo.vue";
+import PasswordView from "@/views/setting/Password.vue";
+
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/dashboard/home",
-  },
-  {
-    path: "/404",
-    component: NotFound,
-  },
+  // 登录页
   {
     path: "/login",
     component: Login,
   },
+  // 项目核心部分
   {
     path: "/dashboard",
     component: BasicLayout,
     children: [
       {
-        path: "",
-        redirect: "home",
-        meta: { hidden: true },
-      },
-      {
         path: "home",
         name: "主页",
         component: Home,
         meta: { icon: "el-icon-s-home" },
-      },
-      {
-        path: "userinfo",
-        name: "用户中心",
-        component: UserInfo,
-        meta: { icon: "el-icon-user-solid" },
       },
       {
         path: "training",
@@ -55,13 +40,40 @@ const routes: Array<RouteRecordRaw> = [
         component: Exam,
         meta: { icon: "el-icon-edit-outline" },
       },
+    ],
+  },
+  // 设置模块
+  {
+    path: "/setting",
+    component: SettingLayout,
+    name: "设置",
+    children: [
       {
-        path: "system",
-        name: "系统设置",
-        component: System,
-        meta: { icon: "el-icon-setting" },
+        path: "user-info",
+        name: "用户信息",
+        component: UserInfoView,
+        meta: { icon: "el-icon-user" },
+      },
+      {
+        path: "password",
+        name: "修改",
+        component: PasswordView,
+        meta: { icon: "el-icon-lock" },
       },
     ],
+  },
+  {
+    path: "/",
+    redirect: "/dashboard/home",
+  },
+
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
+  },
+  {
+    path: "/404",
+    component: NotFound,
   },
 ];
 

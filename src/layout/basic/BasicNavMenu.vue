@@ -8,8 +8,8 @@
     <template v-for="router in routers">
       <el-menu-item
         v-if="!router?.meta?.hidden"
-        :key="router.path"
-        :index="router.path"
+        :key="router.name"
+        :index="router.name"
         :route="router"
       >
         <i v-show="router?.meta?.icon" :class="router.meta.icon" />
@@ -22,8 +22,10 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: "NavBar",
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "BasicNavMenu",
   props: {
     isCollapse: { type: Boolean, default: false },
   },
@@ -34,15 +36,18 @@ export default {
       ).children;
     },
     activePath() {
-      return this.$route.fullPath;
+      return this.$route.name;
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
+.menu {
+  flex: 1;
+}
+
 .menu:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
 }
 </style>
