@@ -30,7 +30,7 @@ import { ElMessage } from "element-plus";
 
 import { login } from "@/api";
 import { setToken } from "@/utils";
-import Footer from "@/components/Footer.vue";
+import Footer from "@/layout/components/Footer.vue";
 
 export default defineComponent({
   name: "login-view",
