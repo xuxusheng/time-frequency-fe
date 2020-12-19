@@ -25,7 +25,7 @@
 export default {
   name: "NavBar",
   props: {
-    isCollapse: Boolean,
+    isCollapse: { type: Boolean, default: false },
   },
   computed: {
     routers() {

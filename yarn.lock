@@ -3578,9 +3578,9 @@ elegant-spinner@^1.0.1:
   resolved "https://registry.npm.taobao.org/elegant-spinner/download/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
   integrity sha1-2wQ1IcldfjA/2PNFvtwzSc+wcp4=
 
-element-plus@^1.0.1-beta.9:
+element-plus@^1.0.1-beta.10:
   version "1.0.1-beta.10"
-  resolved "https://registry.npm.taobao.org/element-plus/download/element-plus-1.0.1-beta.10.tgz#3fdc914c4a888b899d701642e13d1904ccae01f0"
+  resolved "https://registry.npm.taobao.org/element-plus/download/element-plus-1.0.1-beta.10.tgz?cache=0&sync_timestamp=1608263690106&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-plus%2Fdownload%2Felement-plus-1.0.1-beta.10.tgz#3fdc914c4a888b899d701642e13d1904ccae01f0"
   integrity sha1-P9yRTEqIi4mdcBZC4T0ZBMyuAfA=
   dependencies:
     "@popperjs/core" "^2.4.4"
