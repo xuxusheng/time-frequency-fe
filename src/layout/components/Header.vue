@@ -2,7 +2,7 @@
   <el-header class="header">
     <TitleBar @click="goToHome" />
     <el-dropdown placement="bottom">
-      <div class="user-name">
+      <div class="user-name" @click="goToInfo">
         <el-avatar
           size="medium"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -48,6 +48,9 @@ export default defineComponent({
       this.$router.push("/dashboard/home");
     },
     goToSetting() {
+      this.$router.push("/setting/user-info");
+    },
+    goToInfo() {
       this.$router.push("/setting/user-info");
     },
     logout() {
