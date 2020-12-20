@@ -1,6 +1,7 @@
 import { Model } from "./model";
 
-enum Role {
+export enum Role {
+  "" = "",
   admin = "admin",
   member = "member",
 }

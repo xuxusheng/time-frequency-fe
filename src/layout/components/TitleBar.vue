@@ -11,5 +11,6 @@ export default {
 <style scoped lang="scss">
 .title {
   color: #409eff;
+  cursor: pointer;
 }
 </style>

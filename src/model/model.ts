@@ -1,5 +1,5 @@
 export interface Model {
-  id: string;
+  id: number;
   createdAt: string;
   updatedAt: string;
 }

@@ -14,20 +14,8 @@
           <el-dropdown-item @click="goToSetting"
             ><i class="el-icon-setting" />设置
           </el-dropdown-item>
-          <el-dropdown-item>
-            <i class="el-icon-switch-button" />
-            <el-popconfirm
-              confirmButtonText="YES"
-              cancelButtonText="NO"
-              icon="el-icon-info"
-              iconColor="red"
-              title="请问您确认要退出吗？"
-              @confirm="logout"
-            >
-              <template #reference>
-                <el-button type="text">退出登录</el-button>
-              </template>
-            </el-popconfirm>
+          <el-dropdown-item divided @click="logout">
+            <i class="el-icon-switch-button" />退出登录
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -38,7 +26,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TitleBar from "@/layout/components/TitleBar.vue";
-import { setToken } from "@/utils";
+import auth from "@/utils/auth";
 
 export default defineComponent({
   name: "Header",
@@ -51,8 +39,7 @@ export default defineComponent({
       this.$router.push("/setting/user-info");
     },
     logout() {
-      setToken("");
-      this.$router.push("/login");
+      auth.logout();
     },
   },
 });

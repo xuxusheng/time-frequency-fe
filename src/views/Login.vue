@@ -29,11 +29,11 @@ import { defineComponent } from "vue";
 import { ElMessage } from "element-plus";
 
 import { login } from "@/api";
-import { setToken } from "@/utils";
 import Footer from "@/layout/components/Footer.vue";
+import auth from "@/utils/auth";
 
 export default defineComponent({
-  name: "login-view",
+  name: "LoginView",
   components: {
     Footer,
   },
@@ -55,19 +55,20 @@ export default defineComponent({
   methods: {
     submit(formName: string) {
       this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          const resp = await login({
-            name: this.form.name,
-            password: this.form.password,
-          });
-          if (typeof resp.data?.data === "string") {
-            // 登录成功，保存 token
-            ElMessage.success("登录成功");
-            setToken(resp.data.data);
-            this.$router.push("/");
-          }
+        if (!valid) {
+          return false;
         }
-        return false;
+
+        const resp = await login({
+          name: this.form.name,
+          password: this.form.password,
+        });
+        if (typeof resp.data?.data === "string") {
+          // 登录成功，保存 token
+          ElMessage.success("登录成功");
+          auth.setToken(resp.data.data);
+          this.$router.push("/");
+        }
       });
     },
   },
