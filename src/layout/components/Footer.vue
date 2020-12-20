@@ -2,6 +2,8 @@
   <p>
     Powered By
     <a href="https://github.com/xuxusheng" target="_blank">@XuSheng</a>
+    <a href="">&@VeraHuan</a>
+    <a href="">&@HuDoooog</a>
   </p>
 </template>
 
