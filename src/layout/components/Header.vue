@@ -14,8 +14,20 @@
           <el-dropdown-item @click="goToSetting"
             ><i class="el-icon-setting" />设置
           </el-dropdown-item>
-          <el-dropdown-item @click="logout"
-            ><i class="el-icon-switch-button" />退出登录
+          <el-dropdown-item>
+            <i class="el-icon-switch-button" />
+            <el-popconfirm
+              confirmButtonText="YES"
+              cancelButtonText="NO"
+              icon="el-icon-info"
+              iconColor="red"
+              title="请问您确认要退出吗？"
+              @confirm="logout"
+            >
+              <template #reference>
+                <el-button type="text">退出登录</el-button>
+              </template>
+            </el-popconfirm>
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>
