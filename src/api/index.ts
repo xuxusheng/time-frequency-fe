@@ -1,18 +1,17 @@
 import { Resp } from "@/model";
-import { ElMessage } from "element-plus";
-import { c2s, getToken, s2c } from "@/utils";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { c2s, s2c } from "@/utils";
 import axios, { AxiosResponse } from "axios";
+import auth from "@/utils/auth";
 
 export * from "./auth";
+export * from "./user";
 
 // 初始化 axios
 
 const request = axios.create({
   baseURL: "/api",
   timeout: 10000,
-  headers: {
-    ["Authorization"]: getToken(),
-  },
   // 在这里 transform 的话，会导致变成 [object object]，估计是 data 类型有问题，但是 axios 库的 ts 类型又写的 any，坑
   // transformRequest: [
   //   (data) => {
@@ -32,8 +31,7 @@ const request = axios.create({
 });
 
 request.interceptors.request.use((config) => {
-  // 加入 token，todo 不存在的话，跳登录页
-  const token = getToken();
+  const token = auth.getToken();
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
@@ -60,6 +58,24 @@ request.interceptors.response.use((resp: AxiosResponse<Resp>) => {
   }
 
   // todo token 相关错误，跳转向登录页面
+  let msg = "";
+  if (resp.data.meta.errCode === 20000003) {
+    msg = "登录状态非法，请重新登录";
+  }
+  if (resp.data.meta.errCode === 20000004) {
+    msg = "登录状态已过期，请重新登录";
+  }
+
+  if (msg !== "") {
+    ElMessageBox.alert(msg, "登录失败", {
+      showClose: false,
+      type: "error",
+      callback: () => {
+        auth.logout();
+      },
+    });
+    return Promise.reject(resp);
+  }
 
   ElMessage.error(resp.data.meta.errMsg);
 

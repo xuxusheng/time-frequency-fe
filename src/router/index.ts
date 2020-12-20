@@ -10,6 +10,7 @@ import NotFound from "@/views/404.vue";
 import SettingLayout from "@/layout/setting/SettingLayout.vue";
 import UserInfoView from "@/views/setting/UserInfo.vue";
 import PasswordView from "@/views/setting/Password.vue";
+import auth from "@/utils/auth";
 
 const routes: Array<RouteRecordRaw> = [
   // 登录页
@@ -56,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "password",
-        name: "修改",
+        name: "修改密码",
         component: PasswordView,
         meta: { icon: "el-icon-lock" },
       },
@@ -80,6 +81,20 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // 除了去登录页以外，都需要先登录
+  if (to.path !== "/login" && !auth.isLogin()) {
+    next("/login");
+  }
+
+  // 已登录情况下，去登录页的话，重定向回首页
+  if (to.path === "/login" && auth.isLogin()) {
+    next("/dashboard/home");
+  }
+
+  next();
 });
 
 export default router;
