@@ -4,8 +4,8 @@ TODO：
 ## feat
 
 + 学习下 vue3 的 setup 是个啥
-+ 封装 login、logout 相关的函数，内部处理 token 相关逻辑
-+ 封装一个 wrapLoading 函数，处理 loading 状态
++ ~~封装 login、logout 相关的函数，内部处理 token 相关逻辑~~
++ ~~封装一个 wrapLoading 函数，处理 loading 状态~~
 
 ## fix
 

@@ -10,7 +10,11 @@
           <el-input v-model="form.password" @keydown.enter="submit('form')" />
         </el-form-item>
         <el-form-item>
-          <el-button class="btn" type="primary" @click="submit('form')"
+          <el-button
+            class="btn"
+            type="primary"
+            :loading="loading.login"
+            @click="submit('form')"
             >登录
           </el-button>
         </el-form-item>
@@ -26,11 +30,12 @@
 // 登录页组件
 
 import { defineComponent } from "vue";
-import { ElMessage } from "element-plus";
 
-import { login } from "@/api";
 import Footer from "@/layout/components/Footer.vue";
-import auth from "@/utils/auth";
+import { createNamespacedHelpers } from "vuex";
+import { ActTypes } from "@/store/modules/user";
+
+const { mapActions, mapState } = createNamespacedHelpers("user");
 
 export default defineComponent({
   name: "LoginView",
@@ -52,23 +57,23 @@ export default defineComponent({
       },
     };
   },
+  computed: {
+    ...mapState(["loading"]),
+  },
   methods: {
+    ...mapActions([ActTypes.LoginAsync, ActTypes.GetUserAsync]),
     submit(formName: string) {
       this.$refs[formName].validate(async (valid) => {
         if (!valid) {
           return false;
         }
-
-        const resp = await login({
+        if (this.loading.login) {
+          return;
+        }
+        await this[ActTypes.LoginAsync]({
           name: this.form.name,
           password: this.form.password,
         });
-        if (typeof resp.data?.data === "string") {
-          // 登录成功，保存 token
-          ElMessage.success("登录成功");
-          auth.setToken(resp.data.data);
-          this.$router.push("/");
-        }
       });
     },
   },

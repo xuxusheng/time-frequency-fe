@@ -5,7 +5,7 @@
       status-icon
       :rules="rules"
       ref="form"
-      v-loading="loading.userInfo || loading.update"
+      v-loading="loading.userInfo"
     >
       <el-form-item prop="name" label="用户名">
         <el-input
@@ -22,7 +22,14 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button class="btn" type="primary" @click="submit"> 确定</el-button>
+        <el-button
+          class="btn"
+          type="primary"
+          :loading="loading.update"
+          @click="submit"
+        >
+          确定</el-button
+        >
       </el-form-item>
     </el-form>
   </div>
@@ -77,6 +84,9 @@ export default defineComponent({
       this.$refs["form"].validate(async (valid) => {
         if (!valid) {
           return false;
+        }
+        if (this.loading.update) {
+          return;
         }
         this[ActTypes.UpdateUserAsync]({
           name: this.form.name,

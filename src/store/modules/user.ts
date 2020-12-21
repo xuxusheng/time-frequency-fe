@@ -1,8 +1,12 @@
 import { Module } from "vuex";
-import { getMe, updateUser } from "@/api/user";
+import { ElMessage } from "element-plus";
+
+import { getMe, login, updateUser } from "@/api";
 import { Role, User } from "@/model";
 import { RootState } from "@/store";
-import { ElMessage } from "element-plus";
+import { wrapLoading } from "@/utils/loading";
+import auth from "@/utils/auth";
+import router from "@/router";
 
 export enum MutTypes {
   SetLoading = "SetLoading",
@@ -10,6 +14,7 @@ export enum MutTypes {
 }
 
 export enum ActTypes {
+  LoginAsync = "LoginAsync",
   GetUserAsync = "GetUserAsync",
   UpdateUserAsync = "UpdateUserAsync",
 }
@@ -19,7 +24,7 @@ interface DataState {
 }
 
 type LoadingState = {
-  [k in keyof DataState | "update" | "get"]?: boolean;
+  [k in keyof DataState | "login" | "update" | "get"]?: boolean;
 };
 
 interface UIState {
@@ -50,31 +55,43 @@ const module: Module<State, RootState> = {
     },
   },
   actions: {
+    // 登录
+    async [ActTypes.LoginAsync]({ commit, dispatch }, { name, password }) {
+      const resp = await wrapLoading(login({ name, password }), {
+        key: "login",
+        type: MutTypes.SetLoading,
+        commit,
+      });
+
+      ElMessage.success("登录成功");
+      auth.setToken(resp.data.data);
+
+      // 登录成功，请求用户信息
+      dispatch(ActTypes.GetUserAsync);
+
+      router.push("/");
+    },
     // 获取当前用户信息
     async [ActTypes.GetUserAsync]({ commit }) {
-      commit(MutTypes.SetLoading, { userInfo: true });
-      try {
-        const resp = await getMe();
-        commit(MutTypes.SetUser, resp.data.data);
-        commit(MutTypes.SetLoading, { userInfo: false });
-      } catch (err) {
-        commit(MutTypes.SetLoading, { userInfo: false });
-      }
+      const resp = await wrapLoading(getMe(), {
+        key: "userInfo",
+        type: MutTypes.SetLoading,
+        commit,
+      });
+      commit(MutTypes.SetUser, resp.data.data);
     },
     // 更新用户信息
-    async [ActTypes.UpdateUserAsync](
-      { commit, state, dispatch },
-      { name, phone }
-    ) {
-      commit(MutTypes.SetLoading, { update: true });
-      try {
-        const resp = await updateUser(state.userInfo.id, name, phone);
-        commit(MutTypes.SetUser, resp.data.data);
-        commit(MutTypes.SetLoading, { update: false });
-        ElMessage.success("用户信息修改成功");
-      } catch (err) {
-        commit(MutTypes.SetLoading, { update: false });
-      }
+    async [ActTypes.UpdateUserAsync]({ commit, state }, { name, phone }) {
+      const resp = await wrapLoading(
+        updateUser(state.userInfo.id, name, phone),
+        {
+          key: "update",
+          type: MutTypes.SetLoading,
+          commit,
+        }
+      );
+      commit(MutTypes.SetUser, resp.data.data);
+      ElMessage.success("用户信息更新成功");
     },
   },
 };
