@@ -1,7 +1,9 @@
 <template>
   <p>
     Powered By
-    <a href="https://github.com/xuxusheng" target="_blank">@XuSheng</a>
+    <a href="https://github.com/xuxusheng" rel="noopener" target="_blank"
+      >@XuSheng</a
+    >
   </p>
 </template>
 
