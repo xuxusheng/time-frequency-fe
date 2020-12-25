@@ -5,14 +5,14 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Exam from "@/views/exam/index.vue";
 import Training from "@/views/training/index.vue";
+import System from "@/views/system/index.vue";
 import NotFound from "@/views/404.vue";
 
 import SettingLayout from "@/layout/setting/SettingLayout.vue";
 import UserInfoView from "@/views/setting/UserInfo.vue";
 import PasswordView from "@/views/setting/Password.vue";
-import auth from "@/utils/auth";
 
-const routes: Array<RouteRecordRaw> = [
+export const constantRoutes: Array<RouteRecordRaw> = [
   // 登录页
   {
     path: "/login",
@@ -22,6 +22,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/dashboard",
     component: BasicLayout,
+    name: "dashboard",
     children: [
       {
         path: "home",
@@ -78,23 +79,18 @@ const routes: Array<RouteRecordRaw> = [
   },
 ];
 
+export const asyncRoutes: Array<RouteRecordRaw> = [
+  {
+    path: "system",
+    name: "系统中心",
+    component: System,
+    meta: { icon: "el-icon-setting" },
+  },
+];
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
-});
-
-router.beforeEach((to, from, next) => {
-  // 除了去登录页以外，都需要先登录
-  if (to.path !== "/login" && !auth.isLogin()) {
-    next("/login");
-  }
-
-  // 已登录情况下，去登录页的话，重定向回首页
-  if (to.path === "/login" && auth.isLogin()) {
-    next("/dashboard/home");
-  }
-
-  next();
+  routes: constantRoutes,
 });
 
 export default router;

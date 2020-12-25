@@ -79,6 +79,7 @@ const module: Module<State, RootState> = {
         commit,
       });
       commit(MutTypes.SetUser, resp.data.data);
+      return resp.data.data;
     },
     // 更新用户信息
     async [ActTypes.UpdateUserAsync]({ commit, state }, { name, phone }) {
