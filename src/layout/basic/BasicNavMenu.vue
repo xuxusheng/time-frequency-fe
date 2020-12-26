@@ -22,7 +22,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watchEffect, computed, toRefs } from "vue";
+import {
+  defineComponent,
+  watchEffect,
+  computed,
+  onMounted,
+  ref,
+  toRefs,
+} from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 
@@ -32,11 +39,11 @@ export default defineComponent({
     isCollapse: { type: Boolean, default: false },
   },
   // computed: {
-  //   // routers() {
-  //   //   return this.$store.getters.permissionRoutes.find(
-  //   //     ({ path }) => path === "/dashboard"
-  //   //   )?.children;
-  //   // },
+  //   routers() {
+  //     return this.$router.options.routes.find(
+  //       ({ path }) => path === "/dashboard"
+  //     )?.children;
+  //   },
   //   activePath() {
   //     return this.$route.name;
   //   },
@@ -47,14 +54,13 @@ export default defineComponent({
     const router = useRouter();
     const routers = computed(() => {
       // console.log(store.getters?.permissionRoutes);
-      // return store.getters?.permissionRoutes?.[1]?.children;
-      return router.options.routes.find(({ path }) => path === "/dashboard")
-        ?.children;
+      return store.getters?.permissionRoutes;
+      // return router.options.routes.find(({ path }) => path === "/dashboard")
+      //   ?.children;
     });
     const activePath = computed(() => {
       return route.name;
     });
-
     return {
       routers,
       activePath,

@@ -6,13 +6,13 @@ import { RouteRecordRaw } from "vue-router";
 const module = {
   namespaced: true,
   state: () => ({
-    routes: [],
+    routes: constantRoutes[1]?.children,
     addRoutes: [],
   }),
   mutations: {
     SET_ROUTES: (state, routes) => {
       state.addRoutes = routes;
-      state.routes = constantRoutes.concat(routes);
+      state.routes = state.routes.concat(routes);
     },
   },
   actions: {

@@ -1,4 +1,4 @@
-import router from "@/router";
+import router, { asyncRoutes } from "@/router";
 import store from "@/store";
 import auth from "@/utils/auth";
 import NProgress from "nprogress"; // progress bar
@@ -11,16 +11,6 @@ NProgress.configure({ showSpinner: false });
 // 白名单
 const whiteList = ["/login"];
 
-const addSys = () => {
-  // beforeEach中使用addRoutes是无法添加的,因为这是访问路由之前的钩子,你需要自己做判断,addRoutes过后重定向到访问的页面,再次访问就可以了,因为已经执行过addRoutes了
-  router.addRoute("dashboard", {
-    path: "system",
-    name: "系统中心",
-    component: System,
-    meta: { icon: "el-icon-setting" },
-  });
-};
-// addSys();
 router.beforeEach((to, from, next) => {
   // 除了去登录页以外，都需要先登录
   NProgress.start();
@@ -35,12 +25,11 @@ router.beforeEach((to, from, next) => {
       NProgress.done();
     } else {
       const hasGetRole = store.getters.role;
-      console.log(store.getters);
-      console.log(store.getters.role);
+      console.log(hasGetRole);
       if (hasGetRole) {
+        console.log(123);
         next();
       } else {
-        // next();
         try {
           store
             .dispatch("user/GetUserAsync")
@@ -48,8 +37,10 @@ router.beforeEach((to, from, next) => {
               return store.dispatch("permission/generateRoutes", role);
             })
             .then((accessRoute) => {
-              // router.addRoute(accessRoute);
-              // next({ ...to, replace: true });
+              if (accessRoute.length) {
+                router.addRoute("dashboard", accessRoute[0]);
+                next({ ...to, replace: true });
+              }
             });
         } catch (e) {
           console.log(e);

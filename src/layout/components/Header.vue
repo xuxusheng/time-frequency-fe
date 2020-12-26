@@ -52,6 +52,8 @@ export default defineComponent({
     },
     logout() {
       auth.logout();
+      this.$store.state.user.userInfo.role = "";
+      this.$store.state.permission.routes = this.$router.options.routes[1].children;
     },
   },
   mounted() {
